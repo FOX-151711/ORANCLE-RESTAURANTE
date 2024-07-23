@@ -34,3 +34,18 @@ BEGIN
 
     RETURN v_Cursor;
 END;
+
+
+--Funcion para calcular el total de clientes registrados
+CREATE OR REPLACE FUNCTION ContarClientesRegistrados
+RETURN INT IS
+    v_TotalClientes INT;
+BEGIN
+    SELECT COUNT(*)
+    INTO v_TotalClientes
+    FROM TREST_CLIENTES;
+
+    RETURN v_TotalClientes;
+END;
+
+
