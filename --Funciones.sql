@@ -49,3 +49,17 @@ BEGIN
 END;
 
 
+--Funcion para obtener el nombre del cliente que hizo una reservacion 
+CREATE OR REPLACE FUNCTION ObtenerNombreCliente(
+    p_TN_NumReservacion INT
+) RETURN VARCHAR2 IS
+    v_NombreCliente VARCHAR2(60);
+BEGIN
+    SELECT c.TC_Nombre
+    INTO v_NombreCliente
+    FROM TREST_CLIENTES c
+    JOIN TREST_RESERVACION r ON c.TN_IdCliente = r.TN_IdCliente
+    WHERE r.TN_NumReservacion = p_TN_NumReservacion;
+
+    RETURN v_NombreCliente;
+END;
