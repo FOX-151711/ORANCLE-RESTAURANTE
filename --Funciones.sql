@@ -63,3 +63,35 @@ BEGIN
 
     RETURN v_NombreCliente;
 END;
+
+
+--Función para Reporte de Reservaciones, Cliente, Mesa
+CREATE OR REPLACE FUNCTION ReporteReservacionesClientesMesas
+RETURN SYS_REFCURSOR IS
+    v_Cursor SYS_REFCURSOR;
+BEGIN
+    OPEN v_Cursor FOR
+        SELECT r.TN_NumReservacion, c.TC_Nombre, c.TC_Ap1, c.TC_Ap2, m.TC_DscMesa, r.TF_FecReserva
+        FROM TREST_RESERVACION r
+        JOIN TREST_CLIENTES c ON r.TN_IdCliente = c.TN_IdCliente
+        JOIN TREST_MESAS m ON r.TN_IdMesa = m.TN_IdMesa;
+    RETURN v_Cursor;
+END;
+/
+
+--Función para Calcular el Precio Total de una Reservación
+
+CREATE OR REPLACE FUNCTION CalcularPrecioTotal(
+    p_TN_NumReservacion INT
+) RETURN DECIMAL IS
+    v_Total DECIMAL(19, 2);
+BEGIN
+    SELECT SUM(m.TD_Precio * r.TN_Cantidad)
+    INTO v_Total
+    FROM TREST_RESERVACION r
+    JOIN TREST_MENU m ON r.TN_IdMenu = m.TN_IdMenu
+    WHERE r.TN_NumReservacion = p_TN_NumReservacion;
+
+    RETURN v_Total;
+END;
+/
