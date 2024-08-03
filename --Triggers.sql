@@ -103,15 +103,21 @@ END;
 /
 
 
---Eliminar registros
-CREATE OR REPLACE TRIGGER trg_TREST_MENU_AfterDelete
-AFTER DELETE ON TREST_MENU
+CREATE OR REPLACE TRIGGER trg_Eliminar_Bitacora
+AFTER DELETE ON TREST_RESERVACION
 FOR EACH ROW
 BEGIN
     INSERT INTO BITACORA (TablaAfectada, Operacion, Usuario, ValoresAntiguos)
-    VALUES ('TREST_MENU', 'DELETE', USER, 'TN_IdMenu: ' || :OLD.TN_IdMenu || ', TC_DscMenu: ' || :OLD.TC_DscMenu || ', TN_IdTipoMenu: ' || :OLD.TN_IdTipoMenu || ', TD_Precio: ' || :OLD.TD_Precio);
+    VALUES ('TREST_RESERVACION', 'DELETE', USER, 
+            'TN_NumReservacion=' || :OLD.TN_NumReservacion || 
+            ', TN_IdCliente=' || :OLD.TN_IdCliente || 
+            ', TN_IdMesa=' || :OLD.TN_IdMesa || 
+            ', TN_IdMenu=' || :OLD.TN_IdMenu || 
+            ', TN_Cantidad=' || :OLD.TN_Cantidad || 
+            ', TF_FecReserva=' || :OLD.TF_FecReserva);
 END;
 /
+
 
 
 
