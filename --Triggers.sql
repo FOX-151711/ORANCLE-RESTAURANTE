@@ -100,3 +100,21 @@ BEGIN
     VALUES ('TREST_MENU', 'DELETE', USER, 'TN_IdMenu: ' || :OLD.TN_IdMenu || ', TC_DscMenu: ' || :OLD.TC_DscMenu || ', TN_IdTipoMenu: ' || :OLD.TN_IdTipoMenu || ', TD_Precio: ' || :OLD.TD_Precio);
 END;
 /
+
+
+
+
+////////
+CREATE OR REPLACE TRIGGER trg_Insertar_Bitacora
+AFTER INSERT ON TREST_RESERVACION
+FOR EACH ROW
+BEGIN
+    INSERT INTO BITACORA (TablaAfectada, Operacion, Usuario, ValoresNuevos)
+    VALUES ('TREST_RESERVACION', 'INSERT', USER, 'TN_NumReservacion=' || :NEW.TN_NumReservacion || 
+            ', TN_IdCliente=' || :NEW.TN_IdCliente || 
+            ', TN_IdMesa=' || :NEW.TN_IdMesa || 
+            ', TN_IdMenu=' || :NEW.TN_IdMenu || 
+            ', TN_Cantidad=' || :NEW.TN_Cantidad || 
+            ', TF_FecReserva=' || :NEW.TF_FecReserva);
+END;
+/
