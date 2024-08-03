@@ -81,15 +81,27 @@ END;
 
 
     
---Actualizar registros
-CREATE OR REPLACE TRIGGER trg_TREST_MENU_AfterUpdate
-AFTER UPDATE ON TREST_MENU
+CREATE OR REPLACE TRIGGER trg_Actualizar_Bitacora
+AFTER UPDATE ON TREST_RESERVACION
 FOR EACH ROW
 BEGIN
     INSERT INTO BITACORA (TablaAfectada, Operacion, Usuario, ValoresAntiguos, ValoresNuevos)
-    VALUES ('TREST_MENU', 'UPDATE', USER, 'TN_IdMenu: ' || :OLD.TN_IdMenu || ', TC_DscMenu: ' || :OLD.TC_DscMenu || ', TN_IdTipoMenu: ' || :OLD.TN_IdTipoMenu || ', TD_Precio: ' || :OLD.TD_Precio, 'TN_IdMenu: ' || :NEW.TN_IdMenu || ', TC_DscMenu: ' || :NEW.TC_DscMenu || ', TN_IdTipoMenu: ' || :NEW.TN_IdTipoMenu || ', TD_Precio: ' || :NEW.TD_Precio);
+    VALUES ('TREST_RESERVACION', 'UPDATE', USER, 
+            'TN_NumReservacion=' || :OLD.TN_NumReservacion || 
+            ', TN_IdCliente=' || :OLD.TN_IdCliente || 
+            ', TN_IdMesa=' || :OLD.TN_IdMesa || 
+            ', TN_IdMenu=' || :OLD.TN_IdMenu || 
+            ', TN_Cantidad=' || :OLD.TN_Cantidad || 
+            ', TF_FecReserva=' || :OLD.TF_FecReserva,
+            'TN_NumReservacion=' || :NEW.TN_NumReservacion || 
+            ', TN_IdCliente=' || :NEW.TN_IdCliente || 
+            ', TN_IdMesa=' || :NEW.TN_IdMesa || 
+            ', TN_IdMenu=' || :NEW.TN_IdMenu || 
+            ', TN_Cantidad=' || :NEW.TN_Cantidad || 
+            ', TF_FecReserva=' || :NEW.TF_FecReserva);
 END;
 /
+
 
 --Eliminar registros
 CREATE OR REPLACE TRIGGER trg_TREST_MENU_AfterDelete
